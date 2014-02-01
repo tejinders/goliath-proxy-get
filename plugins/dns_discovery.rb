@@ -1,0 +1,38 @@
+class DnsDiscovery
+  DISCOVERY_NAME = '_http._tcp'
+
+  def initialize
+    @device_host = nil
+  end
+  def base_url
+    DNSSD.browse!(DISCOVERY_NAME, 'local') { |r|
+      resolve(r)
+      break
+    }
+    "http://#{@device_host}" unless @device_host.nil?
+  end
+
+  def register(port)
+    DNSSD.register! 'dnssd', DISCOVERY_NAME, 'local', port
+  end
+
+  private
+  def resolve(r)
+    DNSSD.resolve!(r) { |a|
+      @device_host = get_device_addr(a.target, a.port)
+      break
+    }
+  end
+
+  def get_device_addr(target, port)
+    get_device_host(target) + ":" + port.to_s
+  end
+
+  def get_device_host(target)
+    info = Socket.getaddrinfo(target, nil, Socket::AF_INET)
+    info[0][2]
+  rescue SocketError
+    target
+  end
+end
+
