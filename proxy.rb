@@ -21,7 +21,7 @@ class Proxy < Goliath::API
 
   def response(env)
     url = "#{env.base_url}#{env['REQUEST_PATH']}?#{env['QUERY_STRING']}"
-    logger.debug "Proxying #{url}"
+    logger.debug "Proxying #{url} with #{env.config}"
     http = EM::HttpRequest.new(url).get head: headers(env)
     [http.response_header.status, http.response_header, http.response]
   end

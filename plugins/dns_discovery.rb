@@ -5,6 +5,7 @@ class DnsDiscovery
     @device_host = nil
   end
   def base_url
+    p "Searching #{DISCOVERY_NAME} services"
     DNSSD.browse!(DISCOVERY_NAME, 'local') { |r|
       resolve(r)
       break
@@ -13,11 +14,13 @@ class DnsDiscovery
   end
 
   def register(port)
+    p "Registering #{DISCOVERY_NAME} on #{port}"
     DNSSD.register! 'dnssd', DISCOVERY_NAME, 'local', port
   end
 
   private
   def resolve(r)
+    p "Resolving #{r.name}"
     DNSSD.resolve!(r) { |a|
       @device_host = get_device_addr(a.target, a.port)
       break
