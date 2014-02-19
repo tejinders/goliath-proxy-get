@@ -21,7 +21,7 @@ module Goliath
             loop do
               if can_really_proxy? && !dnssd_running?
                 @logger.info "Registering DNSSD service on port: #{@port}"
-                @@dnssd = DnsDiscovery.new(@logger).register(@port)
+                @@dnssd = DnsDiscovery.new.register(@port)
               elsif dnssd_running?
                 @logger.warn "Stopping DNSSD service"
                 @@dnssd.stop
