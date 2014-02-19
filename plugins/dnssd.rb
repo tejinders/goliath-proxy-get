@@ -54,9 +54,7 @@ module Goliath
       end
 
       def dnssd_running?
-        state = @@dnssd && !@@dnssd.stopped?
-        @logger.debug  "DNSSD state: #{state.to_s}"
-        state
+        @@dnssd && !@@dnssd.stopped?
       end
     end
   end
