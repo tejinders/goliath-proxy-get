@@ -17,6 +17,7 @@ class Proxy < Goliath::API
     opts.on('--proxy-user USER', 'proxy user') { |user| options[:proxy_user] = user}
     opts.on('--proxy-pass PASSWORD', 'proxy password') { |pass| options[:proxy_pass] = pass}
     opts.on('--base-url BASE_URL', 'proxy base url (e.g. http://www.google.com)') { |pass| options[:base_url] = pass}
+    opts.on('--test-path TEST_PATH', 'proxy test path (e.g. /some/resource)') { |path| options[:test_path] = path}
   end
 
   def response(env)
