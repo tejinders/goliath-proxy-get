@@ -1,5 +1,5 @@
 class DnsDiscovery
-  DISCOVERY_NAME = '_http._tcp'
+  DISCOVERY_NAME = ENV['SERVICE_TYPE'] || '_http._tcp'
 
   def initialize
     @device_host = nil
