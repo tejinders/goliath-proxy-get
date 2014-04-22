@@ -1,12 +1,15 @@
 class DnsDiscovery
   DISCOVERY_NAME = ENV['SERVICE_TYPE'] || '_http._tcp'
+  HOST_FILTER_PATTERN = ENV['HOST_FILTER_PATTERN'] || '.*'
 
   def initialize
     @device_host = nil
   end
+
   def base_url
     p "Searching #{DISCOVERY_NAME} services"
     DNSSD.browse!(DISCOVERY_NAME, 'local') { |r|
+      next unless r.name.match /^#{HOST_FILTER_PATTERN}/
       resolve(r)
       break
     }
