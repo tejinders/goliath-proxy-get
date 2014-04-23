@@ -18,7 +18,7 @@ class DnsDiscovery
 
   def register(port)
     p "Registering #{DISCOVERY_NAME} on #{port}"
-    DNSSD.register! 'dnssd', DISCOVERY_NAME, 'local', port
+    DNSSD.register! "dnssd.#{Socket.gethostname}", DISCOVERY_NAME, 'local', port
   end
 
   private
