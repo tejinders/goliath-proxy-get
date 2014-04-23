@@ -9,7 +9,7 @@ class DnsDiscovery
   def base_url
     p "Searching #{DISCOVERY_NAME} services"
     DNSSD.browse!(DISCOVERY_NAME, 'local') { |r|
-      next unless r.name.match /^#{HOST_FILTER_PATTERN}/
+      next unless r.name.match /.*#{HOST_FILTER_PATTERN}.*/
       resolve(r)
       break
     }
