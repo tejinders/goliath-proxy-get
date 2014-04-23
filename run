@@ -1,0 +1,12 @@
+#!/bin/sh
+set -e
+while getopts u:p:t:b: opt; do
+case $opt in
+    u) DNSSD_USER=$OPTARG ;;
+    p) DNSSD_PASS=$OPTARG ;;
+    t) DNSSD_PORT=$OPTARG ;;
+    b) DNSSD_PROXY_URL=$OPTARG ;;
+esac
+done
+
+HOST_FILTER_PATTERN='dnssd' RELAY_PASS=$DNSSD_PASS RELAY_USER=$DNSSD_USER SERVICE_TYPE='_airplay._tcp' bundle exec ruby proxy.rb -sv -p $DNSSD_PORT --base-url $DNSSD_PROXY_URL
