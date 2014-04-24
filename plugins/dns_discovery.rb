@@ -18,10 +18,15 @@ class DnsDiscovery
 
   def register(port)
     p "Registering #{DISCOVERY_NAME} on #{port}"
-    DNSSD.register! "dnssd.#{Socket.gethostname}", DISCOVERY_NAME, 'local', port
+    DNSSD.register! sanitized_name, DISCOVERY_NAME, 'local', port
   end
 
   private
+
+  def sanitized_name
+    "dnssd#{ENV['USER']}".gsub(/[^0-9a-z]/i, "")
+  end
+
   def resolve(r)
     p "Resolving #{r.name}"
     DNSSD.resolve!(r) { |a|
